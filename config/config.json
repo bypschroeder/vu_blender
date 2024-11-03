@@ -1,0 +1,30 @@
+{
+    "scene": {
+        "place_camera": true,
+        "place_light": true,
+        "add_floor": false,
+        "add_background": false,
+        "randomize_camera": false,
+        "randomize_light": false
+    },
+    "human": {
+        "randomize_pose": true
+    },
+    "clothing": {
+        "add_top": true,
+        "add_bottom": true,
+        "add_shoes": false,
+        "add_jacket": false
+    },
+    "export": {
+        "export_obj": true,
+        "export_fbx": false,
+        "export_glb": false
+    },
+    "render": {
+        "render_image": true,
+        "image_path": "output/render_images/",
+        "image_width": 1920,
+        "image_height": 1080
+    }
+}
