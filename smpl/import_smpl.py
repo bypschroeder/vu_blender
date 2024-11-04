@@ -123,11 +123,9 @@ def add_collision_modifier(mesh_name):
         print(f"Mesh {mesh_name} not found")
         return
     
-    bpy.ops.object.select_all(action="DESELECT")
-    mesh.select_set(True)
-    bpy.context.view_layer.objects.active = mesh
-
-    bpy.ops.object.modifier_add(type="COLLISION")
+    mesh.modifiers.new(name="Collision", type="COLLISION")
+    mesh.collision.thickness_inner = 0.001
+    mesh.collision.thickness_outer = 0.001
 
 def create_random_smplx_model(randomize_pose="true"):
     gender = "male" # get_random_gender()
@@ -137,14 +135,14 @@ def create_random_smplx_model(randomize_pose="true"):
     import_smplx_model(gender)
     bpy.ops.object.smplx_snap_ground_plane()
 
-    bpy.context.scene.frame_set(20)
+    bpy.context.scene.frame_set(10)
     set_keyframe_at_frame(f"SMPLX-{gender}")
     keyframe_armature_location(f"SMPLX-{gender}")
     bpy.ops.anim.keyframe_insert_by_name(type="Location")
     keyframe_all_shape_keys(f"SMPLX-mesh-{gender}")
     
     bpy.context.scene.frame_set(40)
-    if randomize_pose == "true":
+    if randomize_pose:
         load_pose(get_random_pose(get_relative_path("/smpl/models/smplx/")))
     set_keyframe_at_frame(f"SMPLX-{gender}")
 

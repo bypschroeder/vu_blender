@@ -5,6 +5,7 @@ def set_cloth_material(obj, material_type="default"):
         cloth_modifier = obj.modifiers.new(name="Cloth", type='CLOTH')
 
     cloth_settings = cloth_modifier.settings
+    collision_settings = cloth_modifier.collision_settings
 
     add_smooth_modifier(obj)
 
@@ -23,9 +24,9 @@ def set_cloth_material(obj, material_type="default"):
         cloth_settings.shear_damping = 5
         cloth_settings.bending_damping = 0.350
 
-        cloth_settings.collision_quality = 8
-        cloth_settings.use_self_collision = True
-        cloth_settings.collision_settings.self_distance_min = 0.001
+        collision_settings.collision_quality = 8
+        collision_settings.use_self_collision = True
+        collision_settings.self_distance_min = 0.001
     elif material_type == "denim":
         cloth_settings.quality = 12
         cloth_settings.mass = 1.0
@@ -41,9 +42,9 @@ def set_cloth_material(obj, material_type="default"):
         cloth_settings.shear_damping = 5
         cloth_settings.bending_damping = 0.007
 
-        cloth_settings.collision_quality = 8
-        cloth_settings.use_self_collision = True
-        cloth_settings.collision_settings.self_distance_min = 0.001
+        collision_settings.collision_quality = 8
+        collision_settings.use_self_collision = True
+        collision_settings.self_distance_min = 0.001
     elif material_type == "wool":
         cloth_settings.quality = 12
         cloth_settings.mass = 0.1
@@ -59,9 +60,10 @@ def set_cloth_material(obj, material_type="default"):
         cloth_settings.shear_damping = 5
         cloth_settings.bending_damping = 0.210
 
-        cloth_settings.collision_quality = 8
-        cloth_settings.use_self_collision = True
-        cloth_settings.collision_settings.self_distance_min = 0.001
+        collision_settings.collision_quality = 8
+        collision_settings.use_self_collision = True
+        collision_settings.self_distance_min = 0.001
+
     elif material_type == "silk":
         cloth_settings.quality = 12
     elif material_type == "linen":
@@ -81,14 +83,14 @@ def set_cloth_material(obj, material_type="default"):
         cloth_settings.shear_damping = 5
         cloth_settings.bending_damping = 0.007
 
-        cloth_settings.collision_quality = 8
-        cloth_settings.use_self_collision = True
-        cloth_settings.collision_settings.self_distance_min = 0.001    
+        collision_settings.collision_quality = 8
+        collision_settings.use_self_collision = True
+        collision_settings.self_distance_min = 0.001    
     else:
         print("Material type not found")
 
 def add_smooth_modifier(obj):
     smooth_modifier = obj.modifiers.new(name="Smooth", type="SMOOTH")
 
-    smooth_modifier.factor = 0.6
+    smooth_modifier.factor = 0.275
     smooth_modifier.iterations = 2

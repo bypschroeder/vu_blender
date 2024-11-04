@@ -23,56 +23,68 @@ from clothing.append_clothing import append_random_top, append_random_bottom, ap
 config = load_config()
 
 # Loop for rendering multiple images
-for i in range(1):
+for i in range(10):
     # Create scene
     clear_scene()
-    if config.scene.place_camera:
-        if config.scene.randomize_camera:
+    if config["scene"]["place_camera"]:
+        if config["scene"]["randomize_camera"]:
             camera = add_camera((0, 0, 0), (0, 0, 0))
         else:
             camera = add_camera((0, -60, 10), (90, 0, 0))
-    if config.scene.place_light:
-        if config.scene.randomize_light:
+    if config["scene"]["place_light"]:
+        if config["scene"]["randomize_light"]:
             light = add_light((0, 0, 0))
         else:
             light = add_light((90, 0, 0))
-    if config.scene.add_floor:
+    if config["scene"]["add_floor"]:
         bpy.ops.mesh.primitive_plane_add(location=(0, 0, 0))
         floor = bpy.context.object
         floor.scale = (10, 10, 10)
         floor.modifiers.new(name="Solidify", type="SOLIDIFY")
         floor.modifiers["Solidify"].thickness = 0.1
         floor.modifiers["Solidify"].offset = 0.1
-    if config.scene.add_background:
+    if config["scene"]["add_background"]:
         bpy.ops.mesh.primitive_plane_add(location=(0, 0, 0))
         background = bpy.context.object
         background.scale = (10, 10, 10)
-
     # Create human
-    create_random_smplx_model(randomize_pose=config.human.randomize_pose)
+    create_random_smplx_model(randomize_pose=config["human"]["randomize_pose"])
 
     # Add clothing
-    if config.clothing.add_top:
+    if config["clothing"]["add_top"]:
         append_random_top()
     
-    if config.clothing.add_bottom:
+    if config["clothing"]["add_bottom"]:
         append_random_bottom()
 
-    if config.clothing.add_shoes:
+    if config["clothing"]["add_shoes"]:
         append_random_shoes()
 
     # Bake cloth simulation
-    bake_cloth_simulation()
+    # bake_cloth_simulation()
+    bpy.context.scene.frame_start = 0
+    bpy.context.scene.frame_end = 60
+
+    for obj in bpy.data.objects:
+        for modifier in obj.modifiers:
+            if modifier.type == 'CLOTH': 
+                modifier.point_cache.frame_start = bpy.context.scene.frame_start
+                modifier.point_cache.frame_end = bpy.context.scene.frame_end
+
+    bpy.ops.ptcache.bake_all(bake=True)
 
     # Export
-    if config.export.export_obj:
+    if config["export"]["export_obj"]:
         export_to_obj(get_relative_path(f"/output/export_obj/{i}.obj")) # change export path to config
     
-    if config.export.export_fbx:
+    if config["export"]["export_fbx"]:
         export_to_fbx(get_relative_path(f"/output/export_fbx/{i}.fbx")) # change export path to config
     
-    if config.export.export_glb:
+    if config["export"]["export_glb"]:
         export_to_glb(get_relative_path(f"/output/export_glb/{i}.glb")) # change export path to config
 
     # Render
-    render_image(camera, get_relative_path(f"/output/render_images/{i}.png")) # change export path to config
+    if config["render"]["render_image"]:
+        render_image(camera, get_relative_path(f"/output/render_images/{i}.png")) # change export path to config
+
+    bpy.data.orphans_purge()

@@ -12,7 +12,7 @@
     },
     "clothing": {
         "add_top": true,
-        "add_bottom": true,
+        "add_bottom": false,
         "add_shoes": false,
         "add_jacket": false
     },

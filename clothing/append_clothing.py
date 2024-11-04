@@ -8,7 +8,8 @@ from clothing.modifiers import set_cloth_material
 clothing_material_map = {
     "t-shirt": "cotton",
     "jeans": "denim",
-    "hoodie": "wool"
+    "Pants": "denim",
+    "Hoodie": "wool"
 }
 
 def append_object(filepath, object_name):
@@ -45,7 +46,7 @@ def get_object_name_from_filepath(filepath):
     return object_name[0]
 
 def append_random_top():
-    top_path = get_random_blend_file(get_relative_path("/clothing/models/tops/shirts/"))
+    top_path = get_random_blend_file(get_relative_path("/clothing/models/tops/hoodies/"))
 
     if top_path:
         top_obj = append_object(top_path, get_object_name_from_filepath(top_path))
